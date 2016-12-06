@@ -479,14 +479,14 @@ namespace CHD.Client.CompositionRoot.Module
         {
             Bind<ISettings>()
                 .To<Settings.Controller.Settings>()
-                .WhenInjectedExactlyInto<EmailSettings>()
+                .WhenInjectedExactlyInto<MailRuSettings>()
                 .InSingletonScope()
                 .WithConstructorArgument(
                     "filePath",
                     c => c.Kernel.Get<MainSettings>().GraveyardSettingsFile
                     )
                 .WithConstructorArgument(
-                    "cryptoProvider",
+                    "crypto",
                     c => GetCrypto(c.Kernel)
                     )
                 ;
