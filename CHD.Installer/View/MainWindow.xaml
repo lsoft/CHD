@@ -1,0 +1,129 @@
+﻿<Window x:Class="CHD.Installer.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Инсталляция Compulsive hoarding disorder" Height="350" Width="700">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        
+        <GroupBox
+            Grid.Row="0"
+            Margin="2"
+            Header="Основные настройки"
+            >
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox
+                    Grid.Column="0"
+                    Margin="2"
+                    Text="{Binding MainSettingsFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+
+                <Button
+                    Grid.Column="1"
+                    Margin="2"
+                    Content="Отредактировать настройки"
+                    Command="{Binding EditMainSettingsCommand}"
+                    />
+
+            </Grid>
+
+        </GroupBox>
+        
+        
+        <Grid
+            Grid.Row="1"
+            Margin="2,20,2,2"
+            >
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock
+                Grid.Column="0"
+                Margin="2"
+                Text="Ключ шифрования настроек хранилища (пустой, если нет): "
+                />
+            
+            <TextBox
+                Grid.Column="1"
+                Margin="2"
+                MaxLength="18"
+                AcceptsReturn="False"
+                Text="{Binding EncodeSeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                PreviewKeyDown="UIElement_OnPreviewKeyDown"
+                />
+            
+        </Grid>
+
+        <GroupBox
+            Grid.Row="2"
+            Margin="2"
+            Header="Настройки Email"
+            >
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox
+                    Grid.Column="0"
+                    Margin="2"
+                    Text="{Binding EmailSettingsFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+
+                <Button
+                    Grid.Column="1"
+                    Margin="2"
+                    Content="Отредактировать настройки"
+                    Command="{Binding EditEmailSettingsCommand}"
+                    />
+
+            </Grid>
+
+        </GroupBox>
+
+        <GroupBox
+            Grid.Row="3"
+            Margin="2"
+            Header="Настройки Mail.Ru cloud"
+            >
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox
+                    Grid.Column="0"
+                    Margin="2"
+                    Text="{Binding MailRuCloudSettingsFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+
+                <Button
+                    Grid.Column="1"
+                    Margin="2"
+                    Content="Отредактировать настройки"
+                    Command="{Binding EditMailRuCloudSettingsCommand}"
+                    />
+
+            </Grid>
+
+        </GroupBox>
+
+    </Grid>
+</Window>

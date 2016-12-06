@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <setting name="Login" comment="login for mail.ru cloud">
+    <value>login_for_your_mail_ru_cloud</value>
+  </setting>
+  <setting name="Password" comment="password for mail.ru cloud">
+    <value>pwd_from_your_mail_ru_cloud</value>
+  </setting>
+  <setting name="FileBlockSize" comment="transfer block size">
+    <value>16777216</value>
+    <preferredvalue>16777216</preferredvalue>
+  </setting>
+</settings>
