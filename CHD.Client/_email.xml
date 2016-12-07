@@ -12,7 +12,11 @@
   <setting name="ImapPort" comment="easy to understand by its name">
     <value>your_imap_port</value>
   </setting>
-  <setting name="FileBlockSize" comment="transfer block size">
+  <setting name="MinFileBlockSize" comment="min file size that makes sense">
+    <value>200000</value>
+    <preferredvalue>200000</preferredvalue>
+  </setting>
+  <setting name="MaxFileBlockSize" comment="max allowed attachment size by the email provider">
     <value>2097152</value>
     <preferredvalue>2097152</preferredvalue>
   </setting>

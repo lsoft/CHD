@@ -116,14 +116,21 @@
                         >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <ProgressBar
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    Minimum="0"
-                                    Maximum="100"
-                                    Height="16"
-                                    Value="{Binding Progress, Mode=OneWay}"
-                                    />
+                                <Grid>
+                                    <ProgressBar
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        Minimum="0"
+                                        Maximum="100"
+                                        Height="16"
+                                        Value="{Binding Progress, Mode=OneWay}"
+                                        />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding ProgressText}"
+                                        />
+                                </Grid>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

@@ -55,6 +55,21 @@ namespace CHD.Client.FileOperation
             }
         }
 
+        public string ProgressText
+        {
+            get
+            {
+                if (_fileOperation.Progress < float.Epsilon)
+                {
+                    return
+                        "0 %";
+                }
+
+                return
+                    _fileOperation.Progress.ToString("p1");
+            }
+        }
+
         public BitmapImage WorkImage 
         {
             get

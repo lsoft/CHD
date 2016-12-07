@@ -13,7 +13,8 @@ namespace CHD.Push.Task
     internal class CreateOrChangeAlgorithm : BaseAlgorithm
     {
         private readonly IGraveyard _graveyard;
-        private readonly long _blockFileSize;
+        private readonly long _maxFileBlockSize;
+        private readonly long _minFileBlockSize;
 
         private FileStream _stream;
         private long _size;
@@ -27,7 +28,8 @@ namespace CHD.Push.Task
             IPusher pusher,
             IGraveyard graveyard,
             Guid taskGuid,
-            long blockFileSize,
+            long maxFileBlockSize,
+            long minFileBlockSize,
             int pushTimeoutAfterFailureMsec,
             IDisorderLogger logger
             )
@@ -39,12 +41,13 @@ namespace CHD.Push.Task
             }
 
             _graveyard = graveyard;
-            _blockFileSize = blockFileSize;
+            _maxFileBlockSize = maxFileBlockSize;
+            _minFileBlockSize = minFileBlockSize;
         }
 
         protected override void DoLocalPreparation()
         {
-            _stream = new FileStream(_pusher.FileWrapper.FilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            _stream = new FileStream(_pusher.FileWrapper.FilePath, FileMode.Open, FileAccess.Read, FileShare.Delete);
             _size = _stream.Length;
         }
 
@@ -78,7 +81,11 @@ namespace CHD.Push.Task
         {
             var position = _currentPosition;
             var tailSize = _size - position;
-            var blockSize = Math.Min(_blockFileSize, tailSize);
+
+            var onePercentSize = _size / 100;
+            var blockSize = Math.Max(_minFileBlockSize, onePercentSize); //не меньше минимума
+            blockSize = Math.Min(_maxFileBlockSize, blockSize); //не больше максимума
+            blockSize = Math.Min(tailSize, blockSize); //не больше остатка файла
 
             if (blockSize <= 0)
             {

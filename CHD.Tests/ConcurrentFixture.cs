@@ -19,7 +19,7 @@ namespace CHD.Tests
         public void EmailTest()
         {
             //var settings = new EmailSettings("put your email here", "put your password here", "imap.mail.ru", 993);
-            var settings = new EmailSettings("put your email here", "put your password here", "put you imap server here", -1, 2048); //replace -1 with an imap port
+            var settings = new EmailSettings("put your email here", "put your password here", "put you imap server here", -1, 2048, 1024); //replace -1 with an imap port
             var logger = new Mock<IDisorderLogger>();
 
             
@@ -46,7 +46,7 @@ namespace CHD.Tests
         [TestMethod]
         public void MailRuCloudTest()
         {
-            var settings = new MailRuSettings("put your mail.ru cloud login here", "put your mail.ru cloud password here", 1024*1024*2);
+            var settings = new MailRuSettings("put your mail.ru cloud login here", "put your mail.ru cloud password here", 1024 * 1024 * 2, 1024 * 1024);
             var logger = new Mock<IDisorderLogger>();
 
 

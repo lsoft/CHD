@@ -146,7 +146,7 @@ namespace CHD.Push.ActivityPool
                         var now = AmbientContext.DateTimeProvider.GetCurrentTime();
                         waitTimeout = closestActivity.FireDateTime - now;
 
-                        //it's possibly to be closest event lay in the past
+                        //it's possible to be closest event lay in the past
                         if (waitTimeout < TimeSpan.Zero)
                         {
                             waitTimeout = TimeSpan.Zero;

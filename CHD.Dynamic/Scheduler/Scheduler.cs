@@ -119,13 +119,16 @@ namespace CHD.Dynamic.Scheduler
             {
                 schedulerTask = new SchedulerTask(
                     task,
-                    _timer
+                    _timer,
+                    true
                     );
             }
             else
             {
                 schedulerTask = new SchedulerTask(
-                    task
+                    task,
+                    _timer,
+                    false
                     );
             }
 
@@ -570,7 +573,10 @@ namespace CHD.Dynamic.Scheduler
                 lock (_locker)
                 {
                     _set.Remove(task);
+                    _dict.Remove(task.TaskGuid);
+
                     _set.Add(task);
+                    _dict.Add(task.TaskGuid, task);
                 }
             }
 
@@ -619,6 +625,7 @@ namespace CHD.Dynamic.Scheduler
 
         private class SchedulerTask : ISchedulerTask
         {
+            private readonly PerformanceTimer _timer;
             private long _preTime;
 
             public Guid TaskGuid
@@ -634,9 +641,9 @@ namespace CHD.Dynamic.Scheduler
             {
                 get
                 {
-                    var r = Task.MicrosecondsBetweenAwakes;
+                    var r = _preTime;
 
-                    r += _preTime;
+                    r += Task.MicrosecondsBetweenAwakes;
 
                     return
                         r;
@@ -650,25 +657,9 @@ namespace CHD.Dynamic.Scheduler
             }
 
             public SchedulerTask(
-                ITask task
-
-                )
-            {
-                if (task == null)
-                {
-                    throw new ArgumentNullException("task");
-                }
-
-                Task = task;
-
-                //планировщик не стартовал
-                //корректировать время не надо
-                _preTime = 0L;
-            }
-
-            public SchedulerTask(
                 ITask task,
-                PerformanceTimer timer
+                PerformanceTimer timer,
+                bool needToCorrect
                 )
             {
                 if (task == null)
@@ -682,10 +673,21 @@ namespace CHD.Dynamic.Scheduler
 
                 Task = task;
 
-                //планировщик уже стартовал
-                //надо скорректировать время пробуждения на величину уже проработанного времени
-                //это необходимо, так как в SchedulerTask попадает МОМЕНТ пробуждения, а не продолжительность сна
-                _preTime += timer.MicroSeconds;
+                _timer = timer;
+
+                if (needToCorrect)
+                {
+                    //планировщик уже стартовал
+                    //надо скорректировать время пробуждения на величину уже проработанного времени
+                    //это необходимо, так как в SchedulerTask попадает МОМЕНТ пробуждения, а не продолжительность сна
+                    _preTime = timer.MicroSeconds;
+                }
+                else
+                {
+                    //планировщик не стартовал
+                    //корректировать время не надо
+                    _preTime = 0L;
+                }
             }
 
             public void Execute(
@@ -706,9 +708,9 @@ namespace CHD.Dynamic.Scheduler
                     if (needToRepeat)
                     {
                         //надо повторить задачу
-                        //досуммируем в аккумулятор "прошедшего" времени еще один интервал ожидания
+                        //перед этим надо сделать положенный таймаут
 
-                        _preTime += Task.MicrosecondsBetweenAwakes;
+                        _preTime = _timer.MicroSeconds;
                     }
                 }
             }

@@ -12,13 +12,15 @@ namespace CHD.Push.Task.Factory
     {
         private readonly IPusherFactory _pusherFactory;
         private readonly IGraveyard _graveyard;
-        private readonly long _blockFileSize;
+        private readonly long _maxFileBlockSize;
+        private readonly long _minFileBlockSize;
         private readonly IDisorderLogger _logger;
 
         public AlgorithmFactory(
             IPusherFactory pusherFactory,
             IGraveyard graveyard,
-            long blockFileSize,
+            long maxFileBlockSize,
+            long minFileBlockSize,
             IDisorderLogger logger
             )
         {
@@ -37,7 +39,8 @@ namespace CHD.Push.Task.Factory
 
             _pusherFactory = pusherFactory;
             _graveyard = graveyard;
-            _blockFileSize = blockFileSize;
+            _maxFileBlockSize = maxFileBlockSize;
+            _minFileBlockSize = minFileBlockSize;
             _logger = logger;
         }
 
@@ -68,7 +71,8 @@ namespace CHD.Push.Task.Factory
                         pusher,
                         _graveyard,
                         taskGuid,
-                        _blockFileSize,
+                        _maxFileBlockSize,
+                        _minFileBlockSize,
                         pushTimeoutAfterFailureMsec,
                         _logger
                         );
@@ -115,7 +119,8 @@ namespace CHD.Push.Task.Factory
                             pusher,
                             _graveyard,
                             taskGuid,
-                            _blockFileSize,
+                            _maxFileBlockSize,
+                            _minFileBlockSize,
                             pushTimeoutAfterFailureMsec,
                             _logger
                             );

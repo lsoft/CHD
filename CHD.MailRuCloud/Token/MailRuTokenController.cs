@@ -51,7 +51,7 @@ namespace CHD.MailRuCloud.Token
             }
 
             token = new ActionToken(
-                () => _releaser.TryToReleaseAtBackgroundThread(TryToReleaseTokenInternal)
+                () => _releaser.SyncRelease(TryToReleaseTokenInternal)
                 );
 
             return true;

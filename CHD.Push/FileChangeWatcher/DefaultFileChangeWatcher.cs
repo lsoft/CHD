@@ -152,15 +152,15 @@ namespace CHD.Push.FileChangeWatcher
                 e.FullPath
                 );
 
-            var fileWrapper = _fileWrapperFactory.CreateFile(
-                e.FullPath,
-                _watchFolderPath
-                );
+            //var fileWrapper = _fileWrapperFactory.CreateFile(
+            //    e.FullPath,
+            //    _watchFolderPath
+            //    );
 
-            _activityPool.ApplyActivity(
-                ActivityTypeEnum.CreateOrChange,
-                fileWrapper
-                );
+            //_activityPool.ApplyActivity(
+            //    ActivityTypeEnum.CreateOrChange,
+            //    fileWrapper
+            //    );
         }
 
         private void OnRenamed(object sender, RenamedEventArgs e)

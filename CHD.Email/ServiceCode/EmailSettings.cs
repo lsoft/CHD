@@ -48,8 +48,8 @@ namespace CHD.Email.ServiceCode
             settings.Export(actions);
         }
 
-        internal EmailSettings(string email, string password, string imapServer, int imapPort, long fileBlockSize)
-            : base(fileBlockSize)
+        internal EmailSettings(string email, string password, string imapServer, int imapPort, long maxFileBlockSize, long minFileBlockSize)
+            : base(maxFileBlockSize, minFileBlockSize)
         {
             Email = email;
             Password = password;

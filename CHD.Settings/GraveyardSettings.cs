@@ -9,17 +9,24 @@ namespace CHD.Settings
     {
         protected readonly ISettings _settings;
 
-        public long FileBlockSize
+        public long MaxFileBlockSize
         {
             get;
             private set;
         }
-
+        public long MinFileBlockSize
+        {
+            get;
+            private set;
+        }
+        
         public GraveyardSettings(
-            long fileBlockSize
+            long maxFileBlockSize,
+            long minFileBlockSize
             )
         {
-            FileBlockSize = fileBlockSize;
+            MaxFileBlockSize = maxFileBlockSize;
+            MinFileBlockSize = minFileBlockSize;
         }
 
         public GraveyardSettings(
@@ -35,7 +42,8 @@ namespace CHD.Settings
 
 
             var actions = new Dictionary<string, Action<string>>(StringComparer.InvariantCultureIgnoreCase);
-            actions.Add("FileBlockSize", s => FileBlockSize = long.Parse(s));
+            actions.Add("MaxFileBlockSize", s => MaxFileBlockSize = long.Parse(s));
+            actions.Add("MinFileBlockSize", s => MinFileBlockSize = long.Parse(s));
 
             settings.Export(actions);
         }

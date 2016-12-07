@@ -182,8 +182,12 @@ namespace CHD.Client.CompositionRoot.Module
                 .To<AlgorithmFactory>()
                 .InSingletonScope()
                 .WithConstructorArgument(
-                    "blockFileSize",
-                    c => c.Kernel.Get<GraveyardSettings>().FileBlockSize
+                    "maxFileBlockSize",
+                    c => c.Kernel.Get<GraveyardSettings>().MaxFileBlockSize
+                    )
+                .WithConstructorArgument(
+                    "minFileBlockSize",
+                    c => c.Kernel.Get<GraveyardSettings>().MinFileBlockSize
                     )
                 ;
 

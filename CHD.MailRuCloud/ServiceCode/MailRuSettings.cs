@@ -41,8 +41,8 @@ namespace CHD.MailRuCloud.ServiceCode
             settings.Export(actions);
         }
 
-        internal MailRuSettings(string login, string password, long fileBlockSize)
-            : base(fileBlockSize)
+        internal MailRuSettings(string login, string password, long maxFileBlockSize, long minFileBlockSize)
+            : base(maxFileBlockSize, minFileBlockSize)
         {
             Login = login;
             Password = password;
