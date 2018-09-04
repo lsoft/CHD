@@ -4,15 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{891AD56F-742A-462B-AD9C-6931F01F7C83}</ProjectGuid>
+    <ProjectGuid>{38F9C633-9327-4D59-9F55-2340A704E369}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CHD.Common</RootNamespace>
     <AssemblyName>CHD.Common</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CLogger, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CLogger.1.0.0.947\lib\net40\CLogger.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,47 +39,178 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base64Helper.cs" />
+    <Compile Include="Breaker\Breaker.cs" />
+    <Compile Include="Breaker\IBreaker.cs" />
+    <Compile Include="Breaker\IReadBreaker.cs" />
     <Compile Include="Crypto\FakeCrypto.cs" />
     <Compile Include="Crypto\Gost28147.cs" />
     <Compile Include="Crypto\ICrypto.cs" />
-    <Compile Include="HashGenerator\IHashGenerator.cs" />
-    <Compile Include="HashGenerator\MD5HashGenerator.cs" />
-    <Compile Include="HashGenerator\SetHashGenerator.cs" />
-    <Compile Include="HashGenerator\SHA256HashGenerator.cs" />
-    <Compile Include="Helper.cs" />
+    <Compile Include="Crypto\ICryptoProvider.cs" />
+    <Compile Include="Diff\Applier\OnlineDiffApplier.cs" />
+    <Compile Include="Diff\Constructor\IConflictSearcher.cs" />
+    <Compile Include="Diff\Constructor\OnlineDiffConstructor.cs" />
     <Compile Include="KeyValueContainer\FileKeyValueContainer.cs" />
     <Compile Include="KeyValueContainer\IKeyValueContainer.cs" />
-    <Compile Include="KeyValueContainer\Order\IOrderContainer.cs" />
-    <Compile Include="KeyValueContainer\Order\OrderContainer.cs" />
-    <Compile Include="Logger\CombinedLogger.cs" />
-    <Compile Include="Logger\IDisorderLogger.cs" />
-    <Compile Include="PerformanceTimer.cs" />
+    <Compile Include="KeyValueContainer\InMemoryKeyValueContainer.cs" />
+    <Compile Include="OnlineStatus\Diff\Apply\DiffApplyOnline.cs" />
+    <Compile Include="OnlineStatus\Diff\Apply\Report\OperationReport.cs" />
+    <Compile Include="OnlineStatus\Diff\Apply\Report\OperationReportStatusEnumHelper.cs" />
+    <Compile Include="OnlineStatus\Diff\Build\DiffBuildOnline.cs" />
+    <Compile Include="OnlineStatus\OnlineStatusChanged.cs" />
+    <Compile Include="OnlineStatus\Diff\Apply\IDiffApplyOnlineReport.cs" />
+    <Compile Include="OnlineStatus\Diff\Apply\IDiffApplyOnlineStatus.cs" />
+    <Compile Include="OnlineStatus\Diff\Build\IDiffBuildOnlineStatus.cs" />
+    <Compile Include="OnlineStatus\Diff\Apply\Operation\IOperationOnlineStatus.cs" />
+    <Compile Include="OnlineStatus\Diff\Apply\Report\IOperationReport.cs" />
+    <Compile Include="OnlineStatus\Sync\ISyncOnlineReport.cs" />
+    <Compile Include="OnlineStatus\Sync\ISyncOnlineStatus.cs" />
+    <Compile Include="OnlineStatus\Diff\Apply\Report\OperationReportStatusEnum.cs" />
+    <Compile Include="OnlineStatus\Sync\SyncOnline.cs" />
+    <Compile Include="Operation\Applier\Factory\OnlineOperationApplierFactory.cs" />
+    <Compile Include="Operation\Applier\Factory\IOperationApplierFactory.cs" />
+    <Compile Include="Operation\Applier\Factory\OperationApplierFactory.cs" />
+    <Compile Include="Operation\Applier\OnlineOperationApplier.cs" />
+    <Compile Include="Operation\IOperationDumper.cs" />
+    <Compile Include="Operation\LoggerOperationDumper.cs" />
+    <Compile Include="Operation\OperationTypeEnumHelper.cs" />
+    <Compile Include="Serializer\IDeserializeUpgrader.cs" />
+    <Compile Include="Serializer\SerializationHelper.cs" />
+    <Compile Include="Serializer\SerializationVersionProvider.cs" />
+    <Compile Include="OnlineStatus\Diff\Build\IDiffBuildOnlineReport.cs" />
+    <Compile Include="Sync\Online\OnlineSynchronizer.cs" />
+    <Compile Include="Sync\Online\OnlineSynchronizerFactory.cs" />
+    <Compile Include="Sync\Report\Journal\DiskSyncJournal.cs" />
+    <Compile Include="Sync\Report\Journal\ISyncJournal.cs" />
+    <Compile Include="Sync\Report\SingleOperationReport.cs" />
+    <Compile Include="Sync\Report\SyncResultEnum.cs" />
+    <Compile Include="ChangeIdentifierHelper.cs" />
+    <Compile Include="FileSystem\Surgeon\FileSystemSurgeonConnector.cs" />
+    <Compile Include="IRemoteFileSystemCleaner.cs" />
+    <Compile Include="Letter\Container\Factory\ILettersContainerFactory.cs" />
+    <Compile Include="Letter\Container\Factory\LettersContainerFactory.cs" />
+    <Compile Include="Letter\Container\FileSnapshot.cs" />
+    <Compile Include="Letter\Container\ILettersContainer.cs" />
+    <Compile Include="Letter\Container\LettersContainer.cs" />
+    <Compile Include="Diff\Conflict\ConflictDescription.cs" />
+    <Compile Include="Diff\Constructor\ConflictSearcher.cs" />
+    <Compile Include="Diff\Constructor\DiffConstructor.cs" />
+    <Compile Include="Diff\Diff.cs" />
+    <Compile Include="Diff\Applier\DiffApplier.cs" />
+    <Compile Include="Diff\Conflict\IConflictDescription.cs" />
+    <Compile Include="Sync\Report\FileSystemSyncReport.cs" />
+    <Compile Include="Sync\Report\IFileSystemSyncReport.cs" />
+    <Compile Include="Sync\Report\SyncReport.cs" />
+    <Compile Include="FileSystem\FFile\StructureFile.cs" />
+    <Compile Include="FileSystem\FFolder\StructureFolder.cs" />
+    <Compile Include="FileSystem\IFileSystemCopier.cs" />
+    <Compile Include="FileSystem\Surgeon\FileSystemSurgeon.cs" />
+    <Compile Include="FileSystem\FFile\ICopyableFile.cs" />
+    <Compile Include="FileSystem\IFileSystemExecutor.cs" />
+    <Compile Include="FileSystem\Surgeon\IFileSystemSurgeon.cs" />
+    <Compile Include="FileSystem\Surgeon\IFileSystemSurgeonConnector.cs" />
+    <Compile Include="FileSystem\FFile\INamedFile.cs" />
+    <Compile Include="FileSystem\FFolder\INamedFolder.cs" />
+    <Compile Include="IDisorderLogger.cs" />
+    <Compile Include="OperationLog\IOperationLog.cs" />
+    <Compile Include="OperationLog\IOperationLogGenerator.cs" />
+    <Compile Include="OperationLog\OperationLog.cs" />
+    <Compile Include="OperationLog\OperationLogGenerator.cs" />
+    <Compile Include="Operation\FileOperationComparer.cs" />
+    <Compile Include="Operation\Fixer\ActionFixer.cs" />
+    <Compile Include="Operation\Fixer\IFixer.cs" />
+    <Compile Include="Operation\FolderOperationComparer.cs" />
+    <Compile Include="Scanner\DefaultScanner.cs" />
+    <Compile Include="Scanner\IScanner.cs" />
+    <Compile Include="Structure\Cleaner\IStructureCleaner.cs" />
+    <Compile Include="Structure\Cleaner\LocalStructureCleaner.cs" />
+    <Compile Include="Structure\Cleaner\RemoteStructureCleaner.cs" />
+    <Compile Include="Structure\FolderProvider\IFolderProvider.cs" />
+    <Compile Include="Sync\Provider\ISynchronizerProvider.cs" />
+    <Compile Include="Sync\Provider\SynchronizerProvider.cs" />
+    <Compile Include="Sync\ISynchronizer.cs" />
+    <Compile Include="Letter\Executor\ILetterExecutor.cs" />
+    <Compile Include="Letter\ISendableMessageFactory.cs" />
+    <Compile Include="Letter\Executor\RemoteLetterExecutor.cs" />
+    <Compile Include="Letter\Factory\ILetterFactory.cs" />
+    <Compile Include="Letter\Factory\LetterFactory.cs" />
+    <Compile Include="Letter\ILetter.cs" />
+    <Compile Include="Letter\Letter.cs" />
+    <Compile Include="Letter\SendableWrapper.cs" />
+    <Compile Include="Operation\Visitor\OperationDivider.cs" />
+    <Compile Include="Others\PerformanceTimer.cs" />
+    <Compile Include="Saver\Body\BodyProcessor.cs" />
+    <Compile Include="Saver\Body\IBodyProcessor.cs" />
+    <Compile Include="Saver\MessageTypeEnum.cs" />
+    <Compile Include="Native\NativeMessage.cs" />
+    <Compile Include="Native\SendableMessage.cs" />
+    <Compile Include="Saver\Structure\RemoteSaver.cs" />
+    <Compile Include="ServiceCode\Executor\INativeClientEx.cs" />
+    <Compile Include="ServiceCode\Executor\INativeClientExecutor.cs" />
+    <Compile Include="ServiceCode\IRemoteSettings.cs" />
+    <Compile Include="ServiceCode\IVersionedSettings.cs" />
+    <Compile Include="ServiceCode\SubjectComposer.cs" />
+    <Compile Include="Structure\StructureHelper.cs" />
+    <Compile Include="Structure\IStoredStructure.cs" />
+    <Compile Include="Structure\IVersionedStoredStructure.cs" />
+    <Compile Include="Structure\StoredStructure.cs" />
+    <Compile Include="Structure\StructureChecker.cs" />
+    <Compile Include="Structure\Container\StructureContainer.cs" />
+    <Compile Include="Structure\Container\Factory\StructureContainerFactory.cs" />
+    <Compile Include="Structure\Container\IStructureContainer.cs" />
+    <Compile Include="Structure\Container\Factory\IStructureContainerFactory.cs" />
+    <Compile Include="Operation\Applier\OperationApplier.cs" />
+    <Compile Include="Operation\FileComparer.cs" />
+    <Compile Include="Operation\FileOperation\FileOperation.cs" />
+    <Compile Include="Operation\FileOperation\IFileOperation.cs" />
+    <Compile Include="Diff\IDiff.cs" />
+    <Compile Include="Diff\Applier\IDiffApplier.cs" />
+    <Compile Include="Diff\Constructor\IDiffConstructor.cs" />
+    <Compile Include="FileSystem\IFileSystemConnector.cs" />
+    <Compile Include="FileSystem\FFile\IFile.cs" />
+    <Compile Include="FileSystem\FFolder\IFolder.cs" />
+    <Compile Include="FileSystem\IFileSystem.cs" />
+    <Compile Include="Operation\Fixer\MultiOperationFixer.cs" />
+    <Compile Include="Operation\FolderComparer.cs" />
+    <Compile Include="Operation\FolderOperation\FolderOperation.cs" />
+    <Compile Include="Operation\FolderOperation\IFolderOperation.cs" />
+    <Compile Include="Operation\IOperation.cs" />
+    <Compile Include="Operation\Fixer\IOperationFixer.cs" />
+    <Compile Include="Operation\Visitor\IOperationVisitor.cs" />
+    <Compile Include="Operation\Visitor\Splitter\IOperationSplitter.cs" />
+    <Compile Include="Operation\Applier\IOperationApplier.cs" />
+    <Compile Include="Operation\OperationFieldEnum.cs" />
+    <Compile Include="Operation\OperationPair.cs" />
+    <Compile Include="Operation\Visitor\Splitter\OperationSplitter.cs" />
+    <Compile Include="Operation\OperationTypeEnum.cs" />
+    <Compile Include="Others\Base64Helper.cs" />
+    <Compile Include="Others\CHDException.cs" />
+    <Compile Include="Others\CHDExceptionTypeEnum.cs" />
+    <Compile Include="Others\Helper.cs" />
+    <Compile Include="PathComparer\IPathComparerProvider.cs" />
+    <Compile Include="PathComparer\WindowsPathComparerProvider.cs" />
+    <Compile Include="Others\PathSequence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Triple.cs" />
+    <Compile Include="Serializer\BinaryFormatter\BinaryFormatterSerializer.cs" />
+    <Compile Include="Saver\IAddress.cs" />
+    <Compile Include="Saver\IBinarySaver.cs" />
+    <Compile Include="Serializer\ISerializer.cs" />
+    <Compile Include="Structure\VersionedStoredStructure.cs" />
+    <Compile Include="Sync\Factory\ISynchronizerFactory.cs" />
+    <Compile Include="Sync\Report\SyncResultEnumHelper.cs" />
+    <Compile Include="Sync\Storeable\StoreableSynchronizer.cs" />
+    <Compile Include="Sync\Storeable\StoreableSynchronizerFactory.cs" />
+    <Compile Include="Sync\Synchronizer.cs" />
+    <Compile Include="Sync\Factory\SynchronizerFactory.cs" />
+    <Compile Include="TimeCache.cs" />
+    <Compile Include="UnspecifiedHelper.cs" />
+    <Compile Include="Watcher\FakeFileSystemWatcher.cs" />
+    <Compile Include="Watcher\FileSystemWatcher.cs" />
+    <Compile Include="Watcher\FileWatcherController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Watcher\IFileSystemWatcher.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CHD.Ambient\CHD.Ambient.csproj">
-      <Project>{5B52C3B2-1B16-4891-8FC5-3D4F05BE60A6}</Project>
-      <Name>CHD.Ambient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CHD.FileSystem\CHD.FileSystem.csproj">
-      <Project>{455E4533-8BF4-405E-A25F-CB4602925614}</Project>
-      <Name>CHD.FileSystem</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

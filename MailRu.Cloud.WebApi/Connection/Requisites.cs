@@ -3,7 +3,7 @@ using System.Net;
 
 namespace MailRu.Cloud.WebApi.Connection
 {
-    internal class Requisites
+    internal sealed class Requisites
     {
         public string Login
         {

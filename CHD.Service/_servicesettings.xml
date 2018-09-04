@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  
+  <setting name="mode" comment="work mode: disk, email, cloud.mail.ru">
+    <predefined>
+      <value>disk</value>
+      <value>email</value>
+      <value>cloud.mail.ru</value>
+    </predefined>
+    <value>email</value>
+  </setting>
+  
+  <setting name="WatchFolder" comment="watch folder path">
+    <value>__WatchFolder</value>
+  </setting>
+  
+  <setting name="SkipFolders" comment="watch folder skip paths" allowManyChildren="True">
+    <preferredvalue>__WatchFolder\.special</preferredvalue>
+    <predefined>
+      <value>__WatchFolder\.special</value>
+    </predefined>
+    <value>__WatchFolder\.special</value>
+  </setting>
+  
+  <setting name="RemoteFileSystemSettingsFile" comment="file that contains settings for choosen remote filesystem (_email.xml, _cloud.mail.ru.xml)">
+    <value>_email.xml</value>
+  </setting>
+  
+  <setting name="PluginFolder" comment="folder with CHD service plugins">
+    <value></value>
+  </setting>
+  
+  <setting name="PropertiesFolder" comment="folder that contains CHD properties">
+    <value>__WatchFolder\.special\Properties</value>
+    <preferredvalue>__WatchFolder\.special\Properties</preferredvalue>
+    <predefined>
+      <value>__WatchFolder\.special\Properties</value>
+    </predefined>
+  </setting>
+  
+  <setting name="ScheduledScanTimeoutMsec" comment="timeout between periodically scanning without events from the file system">
+    <preferredvalue>30000</preferredvalue>
+    <value>15000</value>
+  </setting>
+  
+  <setting name="StructureFilePath" comment="structure file path">
+    <value>__WatchFolder\.special\$structure.bin</value>
+  </setting>
+  
+  <setting name="SyncJournalFile" comment="sync information storing file">
+    <value>__WatchFolder\.special\$syncjournal.bin</value>
+  </setting>
+  
+  <setting name="SyncReportStoreDays" comment="sync information storing period">
+    <value>31</value>
+  </setting>
+
+  <setting name="DataChannelEndpoint" comment="endpoint of the channel between the service and the gui application">
+    <predefined>
+      <value>net.tcp://localhost:8205/chd</value>
+    </predefined>
+    <preferredvalue>net.tcp://localhost:8205/chd</preferredvalue>
+    <value>net.tcp://localhost:8205/chd</value>
+  </setting>
+  
+</settings>

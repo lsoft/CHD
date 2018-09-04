@@ -7,7 +7,7 @@ using CHD.Common.Crypto;
 
 namespace CHD.Settings.Controller
 {
-    public class Settings : ISettings
+    public sealed class Settings : ISettings
     {
         private readonly string _filePath;
         private readonly XmlDocument _xmld;
@@ -23,21 +23,16 @@ namespace CHD.Settings.Controller
         }
 
         public Settings(
-            string filePath,
-            ICrypto crypto
+            string filePath
             )
         {
             if (filePath == null)
             {
                 throw new ArgumentNullException("filePath");
             }
-            if (crypto == null)
-            {
-                throw new ArgumentNullException("crypto");
-            }
 
             _filePath = filePath;
-            _xmld = LoadXmlDocument(filePath, crypto);
+            _xmld = LoadXmlDocument(filePath);
             _records = GetRecords(_xmld);
         }
 
@@ -48,7 +43,7 @@ namespace CHD.Settings.Controller
             var f = _records.FirstOrDefault(j => string.Compare(j.Name, updated.Name, StringComparison.InvariantCultureIgnoreCase) == 0);
             if (f != null)
             {
-                f.UpdateValue(updated.Value);
+                f.UpdateValues(updated.Values);
             }
         }
 
@@ -63,14 +58,33 @@ namespace CHD.Settings.Controller
 
             foreach (var s in _records)
             {
-                var node = _xmld.SelectSingleNode(
+                var joint = _xmld.SelectSingleNode(
                     string.Format(
-                        "/settings/setting[@name='{0}']/value",
+                        "/settings/setting[@name='{0}']",
                         s.Name
                         )
                     );
 
-                node.InnerText = s.Value;
+                var nodes = joint.SelectNodes(
+                    "value"
+                    );
+
+                foreach (XmlNode node in nodes)
+                {
+                    joint.RemoveChild(node);
+                }
+
+                foreach (var v in s.Values)
+                {
+                    var newNode = _xmld.CreateNode(
+                        XmlNodeType.Element,
+                        "value",
+                        string.Empty
+                        );
+                    newNode.InnerText = v;
+
+                    joint.AppendChild(newNode);
+                }
             }
 
             using (var ms = new MemoryStream())
@@ -81,7 +95,7 @@ namespace CHD.Settings.Controller
 
                 var encodedFileBody = crypto.EncodeBuffer(fileBody);
                 //var decodedFileBody = _crypto.DecodeBuffer(encodedFileBody);
-                
+
                 File.WriteAllBytes(_filePath, encodedFileBody);
             }
         }
@@ -100,7 +114,10 @@ namespace CHD.Settings.Controller
                 Action<string> action;
                 if (actions.TryGetValue(r.Name, out action))
                 {
-                    action(r.Value);
+                    foreach (var v in r.Values)
+                    {
+                        action(v);
+                    }
                 }
             }
         }
@@ -119,13 +136,24 @@ namespace CHD.Settings.Controller
             foreach (XmlNode node in xmld.SelectNodes("/settings/setting"))
             {
                 var arg = node.Attributes["name"].InnerText;
-                var value = node.SelectSingleNode("value").InnerText;
+                var values = new List<string>();
+                foreach (XmlNode vnode in node.SelectNodes("value"))
+                {
+                    values.Add(vnode.InnerText);
+                }
 
                 var comment = string.Empty;
                 var commentNode = node.Attributes["comment"];
                 if (commentNode != null)
                 {
                     comment = commentNode.InnerText;
+                }
+
+                var allowManyChildren = false;
+                var allowManyChildrenNode = node.Attributes["allowManyChildren"];
+                if (allowManyChildrenNode != null)
+                {
+                    allowManyChildren = bool.Parse(allowManyChildrenNode.InnerText);
                 }
 
                 var preferredValue = string.Empty;
@@ -135,19 +163,20 @@ namespace CHD.Settings.Controller
                     preferredValue = preferredNode.InnerText;
                 }
 
-                var values = new List<string>();
-                foreach (XmlNode vvn in node.SelectNodes("values/value"))
+                var predefinedValues = new List<string>();
+                foreach (XmlNode vvn in node.SelectNodes("predefined/value"))
                 {
                     var v = vvn.InnerText;
-                    values.Add(v);
+                    predefinedValues.Add(v);
                 }
 
                 var sr = new SettingRecord(
                     arg,
-                    value,
+                    values,
+                    allowManyChildren,
                     comment,
                     preferredValue,
-                    values
+                    predefinedValues
                     );
 
                 result.Add(sr);
@@ -157,34 +186,23 @@ namespace CHD.Settings.Controller
                 result;
         }
 
-        private XmlDocument LoadXmlDocument(string filePath, ICrypto crypto)
+        private XmlDocument LoadXmlDocument(string filePath)
         {
             if (filePath == null)
             {
                 throw new ArgumentNullException("filePath");
             }
-            if (crypto == null)
-            {
-                throw new ArgumentNullException("crypto");
-            }
 
             var xmld = new XmlDocument();
 
-            //try
-            //{
-            //    xmld.Load(filePath);
+            var decodedFileBody = File.ReadAllBytes(filePath);
+            //var encodedFileBody = File.ReadAllBytes(filePath);
+            //var decodedFileBody = crypto.DecodeBuffer(encodedFileBody);
 
-            //}
-            //catch (XmlException)
-            //{
-                var encodedFileBody = File.ReadAllBytes(filePath);
-                var decodedFileBody = crypto.DecodeBuffer(encodedFileBody);
-
-                using (var ms = new MemoryStream(decodedFileBody))
-                {
-                    xmld.Load(ms);
-                }
-            //}
+            using (var ms = new MemoryStream(decodedFileBody))
+            {
+                xmld.Load(ms);
+            }
 
             return
                 xmld;

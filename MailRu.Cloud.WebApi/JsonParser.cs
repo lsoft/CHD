@@ -74,7 +74,7 @@ namespace MailRu.Cloud.WebApi
                                     NumberOfFolders = (int)item["count"]["folders"],
                                     NumberOfFiles = (int)item["count"]["files"],
                                     Size = size,
-                                    FullPath = new ServerPath(path),
+                                    FullPath = new MailRuCloudPath(path),
                                     Name = name,
                                     PublicLink = weblink
                                 });
@@ -85,7 +85,7 @@ namespace MailRu.Cloud.WebApi
                                 new File
                                 {
                                     Size = size,
-                                    FullPath = new ServerPath(path),
+                                    FullPath = new MailRuCloudPath(path),
                                     Name = name,
                                     Hash = (string)item["hash"],
                                     PublicLink = weblink,

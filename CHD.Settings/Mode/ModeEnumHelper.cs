@@ -10,9 +10,9 @@ namespace CHD.Settings.Mode
         {
             switch (mode)
             {
-                case ModeEnum.Local:
+                case ModeEnum.Disk:
                     return
-                        "Локальный";
+                        "Локальный диск";
                 case ModeEnum.Email:
                     return
                         "Емейл";

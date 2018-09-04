@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using CHD.Common;
+using CHD.Common.Others;
 
 namespace CHD.Installer.View
 {

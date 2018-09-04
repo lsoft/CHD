@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MailRu.Cloud.WebApi
 {
-    internal class ItemInfo
+    internal sealed class ItemInfo
     {
         public bool IsFolder
         {
@@ -28,7 +28,7 @@ namespace MailRu.Cloud.WebApi
         ///     Gets full file path with name in server.
         /// </summary>
         /// <value>Full file path.</value>
-        public ServerPath FullPath
+        public MailRuCloudPath FullPath
         {
             get;
             internal set;
@@ -53,7 +53,7 @@ namespace MailRu.Cloud.WebApi
             internal set;
         }
 
-        public ItemInfo(string name, ServerPath fullPath)
+        public ItemInfo(string name, MailRuCloudPath fullPath)
         {
             if (name == null)
             {
@@ -68,7 +68,7 @@ namespace MailRu.Cloud.WebApi
             FullPath = fullPath;
         }
 
-        public ItemInfo(string name, ServerPath fullPath, string hash, long size)
+        public ItemInfo(string name, MailRuCloudPath fullPath, string hash, long size)
         {
             if (name == null)
             {

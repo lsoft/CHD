@@ -9,7 +9,7 @@ using Ninject.Planning.Bindings;
 
 namespace CHD.Installer.CompositionRoot
 {
-    internal class SettingsModule : NinjectModule
+    internal sealed class SettingsModule : NinjectModule
     {
         internal const string RealCryptoKey = "RealCrypto";
         internal const string FakeCryptoKey = "FakeCrypto";
@@ -145,6 +145,12 @@ namespace CHD.Installer.CompositionRoot
             //        c => c.Kernel.Get<IEncodedSettingsController>(RealCryptoKey)
             //        )
             //    ;
+
+
+            Bind<KeyProvider>()
+                .To<KeyProvider>()
+                .InSingletonScope()
+                ;
         }
     }
 }

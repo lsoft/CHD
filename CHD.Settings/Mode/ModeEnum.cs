@@ -2,7 +2,7 @@
 {
     public enum ModeEnum
     {
-        Local,
+        Disk,
         Email,
         CloudMailru
     }

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CHD.Common;
+using CHD.Common.Others;
 
 namespace CHD.Installer.View
 {

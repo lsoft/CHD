@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace CHD.Settings.Controller
 {
     public interface ISettingRecordInner
@@ -7,10 +9,11 @@ namespace CHD.Settings.Controller
             get;
         }
 
-        string Value
+        IReadOnlyList<string> Values
         {
             get;
         }
+
 
     }
 }

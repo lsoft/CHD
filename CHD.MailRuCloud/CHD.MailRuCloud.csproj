@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1FD89D03-A4D8-40A9-9168-C00DACC32CAB}</ProjectGuid>
+    <ProjectGuid>{41DA95A6-BD33-40A0-9615-2CF898A5A98E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CHD.MailRuCloud</RootNamespace>
@@ -13,7 +13,6 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,16 +22,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -44,39 +39,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Operation\MailRuFileNameComposer.cs" />
-    <Compile Include="Operation\MailRuOperationFactory.cs" />
-    <Compile Include="Operation\MailRuOperationFileNameContainer.cs" />
-    <Compile Include="Operation\MailRuOperation.cs" />
+    <Compile Include="MailRuCleaner.cs" />
+    <Compile Include="Letter\MailRuSendableMessageFactory.cs" />
+    <Compile Include="Native\MailRuNativeMessage.cs" />
+    <Compile Include="Native\MailRuSendableMessage.cs" />
+    <Compile Include="Network\CachedMailRuConnectionFactory.cs" />
+    <Compile Include="Network\MailRuNativeClientEx.cs" />
+    <Compile Include="Network\MailRuClientExecutor.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceCode\MailRuClient.cs" />
-    <Compile Include="ServiceCode\MailRuClientEx.cs" />
-    <Compile Include="ServiceCode\MailRuSettings.cs" />
-    <Compile Include="Token\MailRuTokenController.cs" />
+    <Compile Include="Settings\MailRuSettings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Structure\MailRuAddress.cs" />
+    <Compile Include="Token\MailRuTokenController.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CHD.Common\CHD.Common.csproj">
-      <Project>{891AD56F-742A-462B-AD9C-6931F01F7C83}</Project>
+      <Project>{38F9C633-9327-4D59-9F55-2340A704E369}</Project>
       <Name>CHD.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CHD.FileSystem\CHD.FileSystem.csproj">
-      <Project>{455E4533-8BF4-405E-A25F-CB4602925614}</Project>
-      <Name>CHD.FileSystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CHD.Graveyard\CHD.Graveyard.csproj">
-      <Project>{503970e0-a3e7-44c1-9a66-e2c5dd0bef38}</Project>
-      <Name>CHD.Graveyard</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CHD.Settings\CHD.Settings.csproj">
-      <Project>{2d399b85-e25e-4a42-897d-4906cc24a9ea}</Project>
+      <Project>{2D399B85-E25E-4A42-897D-4906CC24A9EA}</Project>
       <Name>CHD.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CHD.Token\CHD.Token.csproj">
+      <Project>{0CF04B61-BBE2-4ED0-9EF1-011DE84A2CA4}</Project>
+      <Name>CHD.Token</Name>
     </ProjectReference>
     <ProjectReference Include="..\MailRu.Cloud.WebApi\MailRu.Cloud.WebApi.csproj">
       <Project>{AC56B217-3724-4BA9-930A-53E7E47857F8}</Project>
       <Name>MailRu.Cloud.WebApi</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

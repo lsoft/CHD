@@ -1,8 +1,0 @@
-﻿<Window x:Class="CHD.Client.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Синдром патологического накопительства" Height="250" Width="400">
-    <ContentControl
-          Content="{Binding Path=CurrentView}"
-        />
-</Window>

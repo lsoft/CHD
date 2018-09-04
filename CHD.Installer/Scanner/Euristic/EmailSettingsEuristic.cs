@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CHD.Common;
+using CHD.Common.Others;
 
 namespace CHD.Installer.Scanner.Euristic
 {
-    internal class EmailSettingsEuristic : ISettingsEuristic
+    internal sealed class EmailSettingsEuristic : ISettingsEuristic
     {
         public string Filter(List<FileInfo> fileInfos)
         {

@@ -1,9 +1,8 @@
 using System;
-using CHD.Common.Crypto;
 
 namespace CHD.Settings.Controller
 {
-    public class SettingsFactory : ISettingsFactory
+    public sealed class SettingsFactory : ISettingsFactory
     {
         public SettingsFactory(
             )
@@ -11,22 +10,16 @@ namespace CHD.Settings.Controller
         }
 
         public ISettings LoadSettings(
-            string filePath, 
-            ICrypto crypto
+            string filePath 
             )
         {
             if (filePath == null)
             {
                 throw new ArgumentNullException("filePath");
             }
-            if (crypto == null)
-            {
-                throw new ArgumentNullException("crypto");
-            }
 
             var result = new Settings(
-                filePath,
-                crypto
+                filePath
                 );
 
             return

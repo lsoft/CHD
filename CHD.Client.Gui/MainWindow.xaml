@@ -1,0 +1,214 @@
+﻿<Window x:Class="CHD.Client.Gui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Resources="clr-namespace:CHD.Client.Gui.Resources"
+        xmlns:Main="clr-namespace:CHD.Client.Gui.ViewModel.Main"
+        Loaded="MainWindow_OnLoaded"
+        Unloaded="MainWindow_OnUnloaded"
+        SizeChanged="MainWindow_OnSizeChanged"
+        Title="CHD" Height="350" Width="550">
+    
+    <Window.Resources>
+        <Resources:GridViewConverter x:Key="GridViewConverter"/>
+
+        <Style x:Key="DisabledHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+        
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <!--<RowDefinition Height="auto"/>-->
+        </Grid.RowDefinitions>
+        
+        
+        <TabControl
+            Grid.Row="0"
+            Name="_tabControl"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Style="{StaticResource TabControlStyle}"
+            SelectionChanged="Selector_OnSelectionChanged"
+            >
+            <TabItem Style="{StaticResource TabItemStyle}" Header="Current status">
+                <ScrollViewer
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Auto"
+                    >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="2,2,2,20"
+                            HorizontalAlignment="Center"
+                            Text="{Binding Path=DataContext.(Main:MainViewModel.WatchFolder), RelativeSource={RelativeSource AncestorType=Window}}"
+                            />
+                        
+                        <Grid
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            HorizontalAlignment="Stretch"
+                            >
+                            <ProgressBar
+                                Margin="2"
+                                Height="20"
+                                Foreground="LightBlue"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Minimum="0"
+                                Maximum="100"
+                                Value="{Binding Path=DataContext.(Main:MainViewModel.SyncData).DiffApply.Progress, RelativeSource={RelativeSource AncestorType=Window}, Mode=OneWay}"
+                                />
+
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{Binding Path=DataContext.(Main:MainViewModel.SyncData).DiffApply.ProgressCaption, RelativeSource={RelativeSource AncestorType=Window}, Mode=OneWay}"
+                                />
+
+                        </Grid>
+                        
+                        <Grid
+                            Grid.Row="2"
+                            VerticalAlignment="Stretch"
+                            Visibility="{Binding Path=DataContext.(Main:MainViewModel.SyncData).ProgressBlockVisibility, RelativeSource={RelativeSource AncestorType=Window}, Mode=OneWay}"
+                            >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="2"
+                                Text="Diff building status: "
+                                />
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="2"
+                                Text="{Binding Path=DataContext.(Main:MainViewModel.SyncData).DiffBuild.Status, RelativeSource={RelativeSource AncestorType=Window}, Mode=OneWay}"
+                                />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="2"
+                                Text="Diff applying status: "
+                                />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="2"
+                                Text="{Binding Path=DataContext.(Main:MainViewModel.SyncData).DiffApply.Status, RelativeSource={RelativeSource AncestorType=Window}, Mode=OneWay}"
+                                />
+
+                            <ListView
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                ItemsSource="{Binding Path=DataContext.(Main:MainViewModel.SyncData).DiffApply.Operations, RelativeSource={RelativeSource AncestorType=Window}}"
+                                >
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+
+                                <ListView.View>
+                                    <GridView
+                                        ColumnHeaderContainerStyle="{StaticResource DisabledHeaderStyle}"
+                                        >
+                                        <GridViewColumn Header="Type" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=15}" DisplayMemberBinding="{Binding Type}" />
+                                        <GridViewColumn Header="Target" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=65}" DisplayMemberBinding="{Binding Target}" />
+                                        <GridViewColumn Header="Status" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=20}" DisplayMemberBinding="{Binding Status}" />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+
+                        </Grid>
+
+                    </Grid>
+                </ScrollViewer>
+                
+            </TabItem>
+            
+            <TabItem Style="{StaticResource TabItemStyle}" Header="Sync history" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <ListView
+                        Grid.Row="0"
+                        Margin="0,0,0,2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        SelectedItem="{Binding SelectedReport}"
+                        ScrollViewer.VerticalScrollBarVisibility="Visible"
+                        ItemsSource="{Binding Path=DataContext.(Main:MainViewModel.JournalData), RelativeSource={RelativeSource AncestorType=Window}}"
+                        >
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.View>
+                            <GridView
+                                >
+                                <GridViewColumn Header="Sync date" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=25}" DisplayMemberBinding="{Binding SyncDate}" />
+                                <GridViewColumn Header="Local" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=20}" DisplayMemberBinding="{Binding LocalStatString}" />
+                                <GridViewColumn Header="Remote" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=20}" DisplayMemberBinding="{Binding RemoteStatString}" />
+                                <GridViewColumn Header="Sync result" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=35}" DisplayMemberBinding="{Binding SyncResult}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    
+                    <Button
+                        Grid.Row="1"
+                        Margin="0,2,0,2"
+                        HorizontalAlignment="Right"
+                        Content="Show details"
+                        Command="{Binding Path=DataContext.(Main:MainViewModel.ShowDetailsCommand), RelativeSource={RelativeSource AncestorType=Window}}"
+                        />
+                    
+                </Grid>
+            </TabItem>
+        </TabControl>
+        
+        <!--<Grid
+            Grid.Row="1"
+            Margin="2,5,2,5"
+            >
+            <TextBlock
+                
+                Text="C:\projects\git\Compulsive hoarding disorder 2\CHD.Service\bin\Debug\__WatchFolder\"
+                />
+        </Grid>-->
+        
+    </Grid>
+</Window>

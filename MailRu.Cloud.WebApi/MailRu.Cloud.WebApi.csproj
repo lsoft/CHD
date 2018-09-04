@@ -49,19 +49,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Connection\Factory\IConnectionFactory.cs" />
+    <Compile Include="Connection\Factory\IMailRuConnectionFactory.cs" />
     <Compile Include="Connection\Requisites.cs" />
-    <Compile Include="Connection\Connection.cs" />
-    <Compile Include="Connection\Factory\ConnectionFactory.cs" />
+    <Compile Include="Connection\MailRuConnection.cs" />
+    <Compile Include="Connection\Factory\MailRuConnectionFactory.cs" />
     <Compile Include="ConstSettings.cs" />
     <Compile Include="Entry.cs" />
     <Compile Include="File.cs" />
-    <Compile Include="Connection\IConnection.cs" />
+    <Compile Include="Connection\IMailRuConnection.cs" />
     <Compile Include="Folder.cs" />
     <Compile Include="ItemInfo.cs" />
     <Compile Include="JsonParser.cs" />
     <Compile Include="PObject.cs" />
-    <Compile Include="ServerPath.cs" />
+    <Compile Include="MailRuCloudPath.cs" />
     <Compile Include="Shard\ShardInfo.cs" />
     <Compile Include="Shard\ShardType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

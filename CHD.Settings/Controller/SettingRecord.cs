@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CHD.Settings.Controller
 {
-    public class SettingRecord : ISettingRecord
+    public sealed class SettingRecord : ISettingRecord
     {
+        private readonly List<string> _values;
+
         public string Name
         {
             get;
@@ -13,6 +16,24 @@ namespace CHD.Settings.Controller
 
 
         public string Value
+        {
+            get
+            {
+                return
+                    _values.FirstOrDefault();
+            }
+        }
+
+        public IReadOnlyList<string> Values
+        {
+            get
+            {
+                return
+                    _values;
+            }
+        }
+
+        public bool AllowManyChildren
         {
             get;
             private set;
@@ -30,7 +51,7 @@ namespace CHD.Settings.Controller
             private set;
         }
 
-        public List<string> Values
+        public IReadOnlyList<string> PredefinedValues
         {
             get;
             private set;
@@ -38,39 +59,42 @@ namespace CHD.Settings.Controller
 
         public SettingRecord(
             string name,
-            string value,
+            List<string> values,
+            bool allowManyChildren,
             string comment,
             string preferredValue,
-            List<string> values
+            List<string> predefinedValues
             )
         {
             if (name == null)
             {
                 throw new ArgumentNullException("name");
             }
-            if (value == null)
+            if (values == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException("values");
             }
             if (preferredValue == null)
             {
                 throw new ArgumentNullException("preferredValue");
             }
-            if (values == null)
+            if (predefinedValues == null)
             {
-                throw new ArgumentNullException("values");
+                throw new ArgumentNullException("predefinedValues");
             }
 
             Name = name;
-            Value = value;
+            AllowManyChildren = allowManyChildren;
+            _values = values;
             Comment = comment;
             PreferredValue = preferredValue;
-            Values = values;
+            PredefinedValues = predefinedValues;
         }
 
-        public void UpdateValue(string value)
+        public void UpdateValues(IReadOnlyList<string> values)
         {
-            Value = value;
+            _values.Clear();
+            _values.AddRange(values);
         }
     }
 }

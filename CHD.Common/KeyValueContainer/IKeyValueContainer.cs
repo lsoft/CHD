@@ -7,7 +7,7 @@ namespace CHD.Common.KeyValueContainer
             out string value
             );
 
-        void Add(
+        void AddOrUpdate(
             string key,
             string value
             );

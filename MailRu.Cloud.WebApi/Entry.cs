@@ -5,7 +5,7 @@ namespace MailRu.Cloud.WebApi
     /// <summary>
     ///     List of items in cloud.
     /// </summary>
-    public class Entry
+    public sealed class Entry
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Entry" /> class.

@@ -1,0 +1,433 @@
+﻿<Window x:Class="CHD.Client.Gui.DetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Main="clr-namespace:CHD.Client.Gui.ViewModel.Main"
+        xmlns:Resources="clr-namespace:CHD.Client.Gui.Resources"
+        Loaded="DetailsWindow_OnLoaded"
+        SizeChanged="DetailsWindow_OnSizeChanged"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        KeyUp="DetailsWindow_OnKeyUp"
+        Title="Sync results" Height="800" Width="500">
+
+    <Window.Resources>
+        <Resources:GridViewConverter x:Key="GridViewConverter"/>
+
+    </Window.Resources>
+
+    <Grid
+        HorizontalAlignment="Stretch"
+        >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Header}"
+            />
+
+        <!-- LOCAL -->
+      
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="0,20,0,0"
+            HorizontalAlignment="Center"
+            Text="LOCAL"
+            />
+
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Margin="0,10,0,0"
+            Text="TotalTouched: "
+            />
+
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Margin="0,10,0,0"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Local.TotalTouched}"
+            />
+
+        <!-- FILES -->
+
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Margin="0,5,0,0"
+            Text="FilesTouchedCount: "
+            />
+
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Margin="0,5,0,0"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Local.FilesTouchedCount}"
+            />
+
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Text="CreatedFilesCount: "
+            />
+
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Local.CreatedFilesCount}"
+            />
+
+        <TextBlock
+            Grid.Row="5"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Text="RecreatedFilesCount: "
+            />
+
+        <TextBlock
+            Grid.Row="5"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Local.RecreatedFilesCount}"
+            />
+
+        <TextBlock
+            Grid.Row="6"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Text="DeletedFilesCount: "
+            />
+
+        <TextBlock
+            Grid.Row="6"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Local.DeletedFilesCount}"
+            />
+
+        <!-- FOLDERS -->
+
+        <TextBlock
+            Grid.Row="7"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Margin="0,5,0,0"
+            Text="FoldersTouchedCount: "
+            />
+
+        <TextBlock
+            Grid.Row="7"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Margin="0,5,0,0"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Local.FoldersTouchedCount}"
+            />
+
+        <TextBlock
+            Grid.Row="8"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Text="CreatedFoldersCount: "
+            />
+
+        <TextBlock
+            Grid.Row="8"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Local.CreatedFoldersCount}"
+            />
+
+        <TextBlock
+            Grid.Row="9"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Text="RecreatedFoldersCount: "
+            />
+
+        <TextBlock
+            Grid.Row="9"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Local.RecreatedFoldersCount}"
+            />
+
+        <TextBlock
+            Grid.Row="10"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Text="DeletedFoldersCount: "
+            />
+
+        <TextBlock
+            Grid.Row="10"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Local.DeletedFoldersCount}"
+            />
+
+        <!-- LOCAL OPERATIONS -->
+
+        <TextBlock
+            Grid.Row="11"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="0,20,0,0"
+            HorizontalAlignment="Center"
+            Text="Local operations"
+            />
+
+        <ListView
+            Grid.Row="12"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Margin="10,0,10,10"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
+            ItemsSource="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Local.Operations}"
+            >
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Type" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=25}" DisplayMemberBinding="{Binding Type}" />
+                    <GridViewColumn Header="Full path" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=75}" DisplayMemberBinding="{Binding FullPath}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+
+
+        <!-- REMOTE -->
+
+        <TextBlock
+            Grid.Row="13"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="0,20,0,0"
+            HorizontalAlignment="Center"
+            Text="REMOTE"
+            />
+
+        <TextBlock
+            Grid.Row="14"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Margin="0,10,0,0"
+            Text="TotalTouched: "
+            />
+
+        <TextBlock
+            Grid.Row="14"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Margin="0,10,0,0"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Remote.TotalTouched}"
+            />
+
+        <!-- FILES -->
+
+        <TextBlock
+            Grid.Row="15"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Margin="0,5,0,0"
+            Text="FilesTouchedCount: "
+            />
+
+        <TextBlock
+            Grid.Row="15"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Margin="0,5,0,0"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Remote.FilesTouchedCount}"
+            />
+
+        <TextBlock
+            Grid.Row="16"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Text="CreatedFilesCount: "
+            />
+
+        <TextBlock
+            Grid.Row="16"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Remote.CreatedFilesCount}"
+            />
+
+        <TextBlock
+            Grid.Row="17"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Text="RecreatedFilesCount: "
+            />
+
+        <TextBlock
+            Grid.Row="17"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Remote.RecreatedFilesCount}"
+            />
+
+        <TextBlock
+            Grid.Row="18"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Text="DeletedFilesCount: "
+            />
+
+        <TextBlock
+            Grid.Row="18"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Remote.DeletedFilesCount}"
+            />
+
+        <!-- FOLDERS -->
+
+        <TextBlock
+            Grid.Row="19"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Margin="0,5,0,0"
+            Text="FoldersTouchedCount: "
+            />
+
+        <TextBlock
+            Grid.Row="19"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Margin="0,5,0,0"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Remote.FoldersTouchedCount}"
+            />
+
+        <TextBlock
+            Grid.Row="20"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Text="CreatedFoldersCount: "
+            />
+
+        <TextBlock
+            Grid.Row="20"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Remote.CreatedFoldersCount}"
+            />
+
+        <TextBlock
+            Grid.Row="21"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Text="RecreatedFoldersCount: "
+            />
+
+        <TextBlock
+            Grid.Row="21"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Remote.RecreatedFoldersCount}"
+            />
+
+        <TextBlock
+            Grid.Row="22"
+            Grid.Column="0"
+            HorizontalAlignment="Right"
+            Text="DeletedFoldersCount: "
+            />
+
+        <TextBlock
+            Grid.Row="22"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Text="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Remote.DeletedFoldersCount}"
+            />
+
+        <!-- REMOTE OPERATIONS -->
+
+        <TextBlock
+            Grid.Row="23"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="0,20,0,0"
+            HorizontalAlignment="Center"
+            Text="Remote operations"
+            />
+
+        <ListView
+            Grid.Row="24"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Margin="10,0,10,10"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
+            ItemsSource="{Binding Path=(Main:DetailsViewModel.Wrapper).Report.Remote.Operations}"
+            >
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Type" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=25}" DisplayMemberBinding="{Binding Type}" />
+                    <GridViewColumn Header="Full path" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewConverter}, ConverterParameter=75}" DisplayMemberBinding="{Binding FullPath}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+
+    </Grid>
+</Window>

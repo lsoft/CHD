@@ -1,42 +1,44 @@
 using System;
+using System.Threading;
 using CHD.Common;
-using CHD.Common.Logger;
-using CHD.Graveyard;
-using CHD.Graveyard.Token;
-using CHD.Graveyard.Token.Factory;
-using CHD.Graveyard.Token.Releaser;
-using CHD.MailRuCloud.ServiceCode;
+using CHD.Common.Others;
+using CHD.Common.ServiceCode.Executor;
+using CHD.MailRuCloud.Native;
+using CHD.MailRuCloud.Network;
+using CHD.Token;
+using CHD.Token.Releaser;
 
 namespace CHD.MailRuCloud.Token
 {
-    public class MailRuTokenController : ITokenController
+    public sealed class MailRuTokenController : ITokenController
     {
-        internal const string TokenFolder = "$Token";
+        public const string TokenFolder = "$Token";
 
+        private readonly MailRuClientExecutor _executor;
         private readonly IBackgroundReleaser _releaser;
-        private readonly MailRuSettings _settings;
         private readonly IDisorderLogger _logger;
 
         public MailRuTokenController(
+            MailRuClientExecutor executor,
             IBackgroundReleaser releaser,
-            MailRuSettings settings,
             IDisorderLogger logger
             )
         {
+            if (executor == null)
+            {
+                throw new ArgumentNullException("executor");
+            }
             if (releaser == null)
             {
                 throw new ArgumentNullException("releaser");
-            }
-            if (settings == null)
-            {
-                throw new ArgumentNullException("settings");
             }
             if (logger == null)
             {
                 throw new ArgumentNullException("logger");
             }
+
+            _executor = executor;
             _releaser = releaser;
-            _settings = settings;
             _logger = logger;
         }
 
@@ -74,9 +76,16 @@ namespace CHD.MailRuCloud.Token
 
                 result = true;
             }
-            catch (TokenException)
+            catch (CHDException excp)
             {
-                //suppress this type of the exception
+                if (excp.ExceptionType.In(CHDExceptionTypeEnum.TokenCannotBeObtained, CHDExceptionTypeEnum.TokenCannotBeReleased))
+                {
+                    //suppress this type of the exception
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return
@@ -101,9 +110,16 @@ namespace CHD.MailRuCloud.Token
 
                 result = true;
             }
-            catch (TokenException)
+            catch (CHDException excp)
             {
-                //suppress this type of the exception
+                if (excp.ExceptionType.In(CHDExceptionTypeEnum.TokenCannotBeObtained, CHDExceptionTypeEnum.TokenCannotBeReleased))
+                {
+                    //suppress this type of the exception
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return
@@ -115,12 +131,13 @@ namespace CHD.MailRuCloud.Token
         {
             var result = false;
 
-            using (var client = new MailRuClientEx(_settings, _logger))
-            {
-                result = !client.IsSubfolderExists(
-                    TokenFolder
-                    );
-            }
+            _executor.Execute(
+                client => 
+                {
+                    result = !client.IsChildFolderExists(
+                        TokenFolder
+                        );
+                });
 
             return
                 result;
@@ -128,34 +145,41 @@ namespace CHD.MailRuCloud.Token
 
         private void ReleaseToken()
         {
-            using (var client = new MailRuClientEx(_settings, _logger))
-            {
-                var deletedFolderPath = client.DeleteFolder(
-                    TokenFolder
-                    );
-
-                if (string.Compare(deletedFolderPath, TokenFolder, StringComparison.InvariantCultureIgnoreCase) != 0)
+            _executor.Execute(
+                client =>
                 {
-                    throw new TokenException("Token cannot be released", TokenActionEnum.Release);
-                }
-            }
+                    string deletedFolderName;
+                    client.DeleteChildFolder(
+                        TokenFolder,
+                        out deletedFolderName
+                        );
+
+                    if (string.Compare(deletedFolderName, TokenFolder, StringComparison.InvariantCultureIgnoreCase) != 0)
+                    {
+                        throw new CHDException("Token cannot be released", CHDExceptionTypeEnum.TokenCannotBeReleased);
+                    }
+                });
         }
 
         private void ObtainToken()
         {
-            using (var client = new MailRuClientEx(_settings, _logger))
-            {
-                var createdFolderPath = client.CreateFolder(
-                    TokenFolder
-                    );
-
-                if (string.Compare(createdFolderPath, TokenFolder, StringComparison.InvariantCultureIgnoreCase) != 0)
+            _executor.Execute(
+                client =>
                 {
-                    client.DeleteFolder(createdFolderPath);
+                    string createdFolderName;
+                    client.CreateChildFolder(
+                        TokenFolder,
+                        out createdFolderName
+                        );
 
-                    throw new TokenException("Token cannot be obtained", TokenActionEnum.Obtain);
-                }
-            }
+                    if (string.Compare(createdFolderName, TokenFolder, StringComparison.InvariantCultureIgnoreCase) != 0)
+                    {
+                        string unused;
+                        client.DeleteChildFolder(createdFolderName, out unused);
+
+                        throw new CHDException("Token cannot be obtained", CHDExceptionTypeEnum.TokenCannotBeObtained);
+                    }
+                });
         }
 
     }

@@ -8,8 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using CHD.Common;
 using CHD.Common.Crypto;
-using CHD.Common.Logger;
 using CHD.Installer.CompositionRoot.Components;
 using CHD.Installer.Scanner;
 using CHD.Settings.Controller;
@@ -17,12 +17,13 @@ using CHD.Wpf;
 
 namespace CHD.Installer.ViewModel
 {
-    internal class MainViewModel : BaseViewModel
+    internal sealed class MainViewModel : BaseViewModel
     {
         private readonly IEditWindowFactory _editWindowFactory;
         private readonly ISettingsFactory _settingsFactory;
         private readonly ICrypto _realCrypto;
         private readonly ICrypto _fakeCrypto;
+        //private readonly KeyProvider _keyProvider;
         private readonly IDisorderLogger _logger;
 
         public string EncodeSeed
@@ -116,7 +117,8 @@ namespace CHD.Installer.ViewModel
 
                             OnPropertyChanged(string.Empty);
                         },
-                        j => true);
+                        j => true
+                        );
                 }
 
                 return
@@ -134,6 +136,7 @@ namespace CHD.Installer.ViewModel
             ISettingsFactory settingsFactory,
             ICrypto realCrypto,
             ICrypto fakeCrypto,
+            //KeyProvider keyProvider,
             IDisorderLogger logger
             )
             : base(dispatcher)
@@ -166,6 +169,10 @@ namespace CHD.Installer.ViewModel
             {
                 throw new ArgumentNullException("fakeCrypto");
             }
+            //if (keyProvider == null)
+            //{
+            //    throw new ArgumentNullException("keyProvider");
+            //}
             if (logger == null)
             {
                 throw new ArgumentNullException("logger");
@@ -175,6 +182,7 @@ namespace CHD.Installer.ViewModel
             _settingsFactory = settingsFactory;
             _realCrypto = realCrypto;
             _fakeCrypto = fakeCrypto;
+            //_keyProvider = keyProvider;
             _logger = logger;
 
             EncodeSeed = string.Empty;
@@ -210,27 +218,27 @@ namespace CHD.Installer.ViewModel
             }
         }
 
-        public ICrypto GetCrypto(string encodeSeed)
-        {
-            if (string.IsNullOrEmpty(encodeSeed))
-            {
-                return
-                    _fakeCrypto;
-            }
+        //public ICrypto GetCrypto(string encodeSeed)
+        //{
+        //    if (string.IsNullOrEmpty(encodeSeed))
+        //    {
+        //        return
+        //            _fakeCrypto;
+        //    }
 
-            var key = KeyProvider.ProvideKey(encodeSeed);
+        //    var key = _keyProvider.ParseKey(encodeSeed);
 
-            if (key == null)
-            {
-                return
-                    _fakeCrypto;
-            }
+        //    if (key == null)
+        //    {
+        //        return
+        //            _fakeCrypto;
+        //    }
 
-            _realCrypto.LoadKey(key);
+        //    _realCrypto.LoadKey(key);
 
-            return
-                _realCrypto;
-        }
+        //    return
+        //        _realCrypto;
+        //}
 
         private void ShowWindow(
             string settingsFilePath,
@@ -245,8 +253,8 @@ namespace CHD.Installer.ViewModel
             try
             {
                 var settings = _settingsFactory.LoadSettings(
-                    settingsFilePath,
-                    GetCrypto(encodeSeed)
+                    settingsFilePath
+                    //,GetCrypto(encodeSeed)
                     );
 
                 var ew = _editWindowFactory.Create(

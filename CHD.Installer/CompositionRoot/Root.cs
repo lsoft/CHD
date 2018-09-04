@@ -8,7 +8,7 @@ using Ninject;
 
 namespace CHD.Installer.CompositionRoot
 {
-    internal class Root
+    internal sealed class Root : IDisposable
     {
         internal const string MainKey = "main";
         internal const string EmailKey = "email";
@@ -29,7 +29,9 @@ namespace CHD.Installer.CompositionRoot
         public void Init(
             )
         {
-            var lm = new LoggerModule();
+            var lm = new LoggerModule(
+                64
+                );
             _kernel.Load(lm);
 
             var uim = new UserInterfaceModule(

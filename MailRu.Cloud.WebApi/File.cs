@@ -3,7 +3,7 @@ namespace MailRu.Cloud.WebApi
     /// <summary>
     ///     Server file info.
     /// </summary>
-    public class File
+    public sealed class File
     {
         /// <summary>
         ///     Gets file name.
@@ -38,7 +38,7 @@ namespace MailRu.Cloud.WebApi
         ///     Gets full file path with name in server.
         /// </summary>
         /// <value>Full file path.</value>
-        public ServerPath FullPath
+        public MailRuCloudPath FullPath
         {
             get;
             internal set;

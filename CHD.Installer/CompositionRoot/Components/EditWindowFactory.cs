@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CHD.Common.Crypto;
 using CHD.Installer.View;
 using CHD.Installer.ViewModel;
+using CHD.Installer.ViewModel.Edit;
 using CHD.Settings;
 using CHD.Settings.Controller;
 using Ninject;
@@ -14,7 +15,7 @@ using Ninject.Syntax;
 
 namespace CHD.Installer.CompositionRoot.Components
 {
-    internal class EditWindowFactory : IEditWindowFactory
+    internal sealed class EditWindowFactory : IEditWindowFactory
     {
         private readonly IResolutionRoot _root;
 

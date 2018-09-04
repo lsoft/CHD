@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<settings>
+
+  <setting name="DataChannelEndpoint" comment="endpoint of the channel between the service and the gui application">
+    <predefined>
+      <value>net.tcp://localhost:8205/chd</value>
+    </predefined>
+    <preferredvalue>net.tcp://localhost:8205/chd</preferredvalue>
+    <value>net.tcp://localhost:8205/chd</value>
+  </setting>
+  
+</settings>

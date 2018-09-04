@@ -4,6 +4,11 @@ namespace CHD.Settings.Controller
 {
     public interface ISettingRecord : ISettingRecordInner
     {
+        bool AllowManyChildren
+        {
+            get;
+        }
+
         string Comment
         {
             get;
@@ -14,13 +19,18 @@ namespace CHD.Settings.Controller
             get;
         }
 
-        List<string> Values
+        string Value
         {
             get;
         }
 
-        void UpdateValue(
-            string value
+        IReadOnlyList<string> PredefinedValues
+        {
+            get;
+        }
+
+        void UpdateValues(
+            IReadOnlyList<string> values
             );
     }
 }

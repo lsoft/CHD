@@ -10,13 +10,14 @@ using CHD.Installer.CompositionRoot.Components;
 using CHD.Installer.Scanner;
 using CHD.Installer.View;
 using CHD.Installer.ViewModel;
+using CHD.Installer.ViewModel.Edit;
 using CHD.Wpf;
 using Ninject;
 using Ninject.Modules;
 
 namespace CHD.Installer.CompositionRoot
 {
-    internal class UserInterfaceModule : NinjectModule
+    internal sealed class UserInterfaceModule : NinjectModule
     {
         public override void Load()
         {

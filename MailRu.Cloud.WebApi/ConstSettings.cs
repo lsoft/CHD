@@ -6,7 +6,7 @@ namespace MailRu.Cloud.WebApi
     /// <summary>
     ///     Additional class to constant values.
     /// </summary>
-    internal class ConstSettings
+    internal sealed class ConstSettings
     {
         public const string Domain = "mail.ru";
         public const string CloudDomain = "https://cloud.mail.ru";

@@ -3,7 +3,7 @@ namespace MailRu.Cloud.WebApi
     /// <summary>
     ///     Server folder info.
     /// </summary>
-    public class Folder
+    public sealed class Folder
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Folder" /> class.
@@ -17,7 +17,7 @@ namespace MailRu.Cloud.WebApi
         /// </summary>
         /// <param name="name">Folder name.</param>
         public Folder(string name)
-            : this(0, 0, name, 0L, ServerPath.Empty)
+            : this(0, 0, name, 0L, MailRuCloudPath.Empty)
         {
         }
 
@@ -30,7 +30,7 @@ namespace MailRu.Cloud.WebApi
         /// <param name="size">Folder size.</param>
         /// <param name="fullPath">Full folder path.</param>
         /// <param name="publicLink">Public folder link.</param>
-        public Folder(int foldersCount, int filesCount, string name, long size, ServerPath fullPath, string publicLink = null)
+        public Folder(int foldersCount, int filesCount, string name, long size, MailRuCloudPath fullPath, string publicLink = null)
         {
             NumberOfFolders = foldersCount;
             NumberOfFiles = filesCount;
@@ -84,7 +84,7 @@ namespace MailRu.Cloud.WebApi
         ///     Gets full folder path on the server.
         /// </summary>
         /// <value>Full folder path.</value>
-        public ServerPath FullPath
+        public MailRuCloudPath FullPath
         {
             get;
             internal set;

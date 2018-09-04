@@ -2,7 +2,7 @@ using System;
 
 namespace CHD.Common.Crypto
 {
-    public class FakeCrypto : ICrypto
+    public sealed class FakeCrypto : ICrypto
     {
         public void LoadKey(byte[] newKey)
         {

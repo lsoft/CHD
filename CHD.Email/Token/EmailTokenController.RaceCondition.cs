@@ -8,12 +8,15 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CHD.Common;
 using CHD.Common.Graveyard.Token;
 using CHD.Common.Graveyard.Token.Factory;
 using CHD.Common.Graveyard.Token.Releaser;
 using CHD.Common.Logger;
 using CHD.Email.ServiceCode;
 using CHD.Email.Token.UidProvider;
+using CHD.Token;
+using CHD.Token.Releaser;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Net.Pop3;
@@ -159,8 +162,6 @@ namespace CHD.Email.Token
 
             using (var client = new ImapClientEx(_settings, _logger))
             {
-                client.Connect();
-
                 //UniqueId uid;
                 //if (!_uidProvider.GetTokenUid(client, out uid))
                 //{
@@ -228,8 +229,6 @@ namespace CHD.Email.Token
         {
             using (var client = new ImapClientEx(_settings, _logger))
             {
-                client.Connect();
-
                 var result = false;
 
                 //lock (_locker)
@@ -402,8 +401,6 @@ namespace CHD.Email.Token
         {
             using (var client = new ImapClientEx(_settings, _logger))
             {
-                client.Connect();
-
                 UniqueId uid;
 
                 return

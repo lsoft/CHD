@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E53521EE-5DB4-4AE3-9650-3AF370CA5C7F}</ProjectGuid>
+    <ProjectGuid>{1A2ABD98-C33D-47D7-907C-6A5C2EEC9187}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CHD.Email</RootNamespace>
@@ -36,12 +36,12 @@
       <HintPath>..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MailKit, Version=1.10.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
-      <HintPath>..\packages\MailKit.1.10.1\lib\net451\MailKit.dll</HintPath>
+    <Reference Include="MailKit, Version=1.12.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.1.12.0\lib\net451\MailKit.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MimeKit, Version=1.10.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
-      <HintPath>..\packages\MimeKit.1.10.0\lib\net451\MimeKit.dll</HintPath>
+    <Reference Include="MimeKit, Version=1.12.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.1.12.0\lib\net451\MimeKit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -54,37 +54,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Operation\EmailBodyComposer.cs" />
-    <Compile Include="Operation\EmailOperation.cs" />
-    <Compile Include="Operation\EmailOperationFactory.cs" />
-    <Compile Include="Operation\EmailSubjectComposer.cs" />
-    <Compile Include="ServiceCode\EmailSettings.cs" />
-    <Compile Include="ServiceCode\ImapClient.cs" />
-    <Compile Include="Token\EmailTokenController.cs" />
-    <Compile Include="ServiceCode\ImapClientEx.cs" />
+    <Compile Include="EmailCleaner.cs" />
+    <Compile Include="Letter\EmailSendableMessageFactory.cs" />
+    <Compile Include="Network\Imap\CachedImapClientFactory.cs" />
+    <Compile Include="Network\Imap\IImapClient.cs" />
+    <Compile Include="Network\Imap\IImapClientFactory.cs" />
+    <Compile Include="Network\Imap\IImapConnectedClient.cs" />
+    <Compile Include="Network\Imap\ImapClientFactory.cs" />
+    <Compile Include="Structure\EmailAddress.cs" />
+    <Compile Include="Letter\EmailBodyComposer.cs" />
+    <Compile Include="Network\EmailNativeClientEx.cs" />
+    <Compile Include="Native\EmailNativeMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\EmailSettings.cs" />
+    <Compile Include="Network\Imap\ImapConnectedClient.cs" />
+    <Compile Include="Native\EmailSendableMessage.cs" />
+    <Compile Include="Network\EmailClientExecutor.cs" />
+    <Compile Include="Token\EmailTokenController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CHD.Common\CHD.Common.csproj">
-      <Project>{891AD56F-742A-462B-AD9C-6931F01F7C83}</Project>
+      <Project>{38F9C633-9327-4D59-9F55-2340A704E369}</Project>
       <Name>CHD.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CHD.FileSystem\CHD.FileSystem.csproj">
-      <Project>{455E4533-8BF4-405E-A25F-CB4602925614}</Project>
-      <Name>CHD.FileSystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CHD.Graveyard\CHD.Graveyard.csproj">
-      <Project>{503970e0-a3e7-44c1-9a66-e2c5dd0bef38}</Project>
-      <Name>CHD.Graveyard</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CHD.Settings\CHD.Settings.csproj">
-      <Project>{2d399b85-e25e-4a42-897d-4906cc24a9ea}</Project>
+      <Project>{2D399B85-E25E-4A42-897D-4906CC24A9EA}</Project>
       <Name>CHD.Settings</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CHD.Token\CHD.Token.csproj">
+      <Project>{0CF04B61-BBE2-4ED0-9EF1-011DE84A2CA4}</Project>
+      <Name>CHD.Token</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -1,14 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
+using CHD.Common;
 
 namespace CHD.Installer
 {
-    public class KeyProvider
+    public sealed class KeyProvider
     {
-        public static byte[] ProvideKey(
+        private readonly IDisorderLogger _logger;
+
+        public KeyProvider(
+            IDisorderLogger logger
+            )
+        {
+            if (logger == null)
+            {
+                throw new ArgumentNullException("logger");
+            }
+            _logger = logger;
+        }
+
+        public bool TryParseKey(
+            string encodeSeed,
+            out byte[] key
+            )
+        {
+            key = null;
+            var result = false;
+
+            try
+            {
+                key = ParseKey(encodeSeed);
+                result = (key != null);
+            }
+            catch(Exception excp)
+            {
+                _logger.LogException(excp);
+            }
+
+            return
+                result;
+        }
+
+        public byte[] ParseKey(
             string encodeSeed
             )
         {
@@ -29,6 +66,5 @@ namespace CHD.Installer
             return
                 key;
         }
-
     }
 }

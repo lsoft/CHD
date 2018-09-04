@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.Odbc;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CHD.Common.Logger;
+using CHD.Common.Others;
 
 namespace CHD.Common.KeyValueContainer
 {
-    public class FileKeyValueContainer : IKeyValueContainer
+    public sealed class FileKeyValueContainer : IKeyValueContainer
     {
         private readonly object _locker = new object();
 
@@ -45,6 +44,21 @@ namespace CHD.Common.KeyValueContainer
 
         public bool TryGet(string key, out string value)
         {
+            if (key == null)
+            {
+                throw new ArgumentNullException("key");
+            }
+
+            if (key.Contains(false, new[] { '\r', '\n' }))
+            {
+                throw new ArgumentException(
+                    string.Format(
+                        "Key {0} contains \\r or \\n",
+                        key
+                        )
+                    );
+            }
+
             lock (_locker)
             {
                 return
@@ -52,15 +66,39 @@ namespace CHD.Common.KeyValueContainer
             }
         }
 
-        public void Add(string key, string value)
+        public void AddOrUpdate(string key, string value)
         {
+            if (key == null)
+            {
+                throw new ArgumentNullException("key");
+            }
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+
+            if (key.Contains(false, new[] {'\r', '\n'}))
+            {
+                throw new ArgumentException(
+                    string.Format(
+                        "Key {0} contains \\r or \\n",
+                        key
+                        )
+                    );
+            }
+
             lock (_locker)
             {
                 _container[key] = value;
 
                 var fi = Base64Helper.EncodeToString(key);
                 var filePath = Path.Combine(_folderPath, fi);
-                File.WriteAllText(filePath, value);
+                File.WriteAllLines(filePath,
+                    new []
+                    {
+                        key,
+                        value
+                    });
             }
         }
 
@@ -74,7 +112,8 @@ namespace CHD.Common.KeyValueContainer
                     var fin = fi.Name;
 
                     var key = Base64Helper.DecodeFromString(fin);
-                    var value = File.ReadAllText(file);
+                    var lines = File.ReadAllLines(file);
+                    var value = lines[1];
 
                     lock (_locker)
                     {

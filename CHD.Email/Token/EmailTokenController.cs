@@ -1,36 +1,28 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using CHD.Common.Logger;
-using CHD.Email.ServiceCode;
-using CHD.Graveyard.Token;
-using CHD.Graveyard.Token.Factory;
-using CHD.Graveyard.Token.Releaser;
-using MailKit;
-using MailKit.Net.Imap;
-using MailKit.Search;
-using MimeKit;
-using ImapClient = CHD.Email.ServiceCode.ImapClient;
+using CHD.Common;
+using CHD.Common.Native;
+using CHD.Common.Saver;
+using CHD.Common.ServiceCode.Executor;
+using CHD.Token;
+using CHD.Token.Releaser;
 
 namespace CHD.Email.Token
 {
-    public class EmailTokenController : ITokenController
+    public sealed class EmailTokenController<TNativeMessage, TSendableMessage> : ITokenController
+        where TNativeMessage : NativeMessage
+        where TSendableMessage : SendableMessage
     {
-        internal const string TokenFolder = "$Token";
+        public const string TokenFolder = "$Token";
 
         private readonly IBackgroundReleaser _releaser;
-        private readonly EmailSettings _settings;
+        private readonly INativeClientExecutor<TNativeMessage, TSendableMessage> _executor;
         private readonly IDisorderLogger _logger;
+
+        private readonly object _locker = new object();
 
         public EmailTokenController(
             IBackgroundReleaser releaser,
-            EmailSettings settings,
+            INativeClientExecutor<TNativeMessage, TSendableMessage> executor,
             IDisorderLogger logger
             )
         {
@@ -38,16 +30,16 @@ namespace CHD.Email.Token
             {
                 throw new ArgumentNullException("releaser");
             }
-            if (settings == null)
+            if (executor == null)
             {
-                throw new ArgumentNullException("settings");
+                throw new ArgumentNullException("executor");
             }
             if (logger == null)
             {
                 throw new ArgumentNullException("logger");
             }
             _releaser = releaser;
-            _settings = settings;
+            _executor = executor;
             _logger = logger;
         }
 
@@ -113,44 +105,41 @@ namespace CHD.Email.Token
         private bool IsTokenFree(
             )
         {
-            var result = false;
-
-            using (var client = new ImapClientEx(_settings, _logger))
+            lock (_locker)
             {
-                result = client.IsSubfolderExists(
-                    TokenFolder
+                var result = _executor.Execute(
+                    client => client.IsChildFolderExists(TokenFolder)
                     );
-            }
 
-            return
-                result;
+                return
+                    result;
+            }
         }
 
         private bool ReleaseToken()
         {
-            var result = false;
-
-            using (var client = new ImapClientEx(_settings, _logger))
+            lock (_locker)
             {
-                result = client.DeleteFolder(
-                    TokenFolder
+                string unused;
+                var result = _executor.Execute(
+                    client => client.DeleteChildFolder(TokenFolder, out unused)
                     );
+
+                return result;
             }
-            return result;
         }
 
         private bool ObtainToken()
         {
-            var result = false;
-
-            using (var client = new ImapClientEx(_settings, _logger))
+            lock (_locker)
             {
-                result = client.CreateFolder(
-                    TokenFolder
+                string unused;
+                _executor.Execute(
+                    client => client.CreateChildFolder(TokenFolder, out unused)
                     );
-            }
 
-            return result;
+                return true;
+            }
         }
 
     }

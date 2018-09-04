@@ -3,11 +3,12 @@ using System.Data.Common;
 using System.IO;
 using System.Linq;
 using CHD.Common;
+using CHD.Common.Others;
 using CHD.Installer.Scanner.Euristic;
 
 namespace CHD.Installer.Scanner
 {
-    internal class SettingsFileScanner
+    internal sealed class SettingsFileScanner
     {
         private readonly ISettingsEuristic _euristic;
         private readonly string _folderPath;

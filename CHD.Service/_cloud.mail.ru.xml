@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <setting name="Login" comment="login for mail.ru cloud">
+    <value>*****@******.***</value>
+  </setting>
+  <setting name="Password" comment="password for mail.ru cloud">
+    <value>***************</value>
+  </setting>
+  <!--<setting name="MinFileBlockSize" comment="min file size that makes sense">
+    <value>2000000</value>
+    <preferredvalue>2000000</preferredvalue>
+  </setting>-->
+  <setting name="MaxFileBlockSize" comment="max allowed file size by the cloud">
+    <value>100000000</value> <!-- 100MB -->
+    <preferredvalue>100000000</preferredvalue>
+  </setting>
+  <setting name="StoredSnapshotCount" comment="count of history snapshot stored (previous versions of the file system)">
+    <value>64</value>
+    <preferredvalue>64</preferredvalue>
+  </setting>
+  <setting name="StructureFolder" comment="structure file path">
+    <value>$Structure</value>
+  </setting>
+  <setting name="StructurePrefix" comment="structure file prefix">
+    <value>$Structure</value>
+  </setting>
+  <setting name="ChangeIdentifierFolder" comment="">
+    <value>$ChangeIdentifier</value>
+  </setting>
+  <setting name="ChangeIdentifierPrefix" comment="">
+    <value>$ChangeIdentifier</value>
+  </setting>
+</settings>

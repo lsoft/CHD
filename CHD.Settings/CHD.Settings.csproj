@@ -46,7 +46,6 @@
     <Compile Include="Controller\ISettingRecordInner.cs" />
     <Compile Include="Controller\SettingRecord.cs" />
     <Compile Include="Controller\Settings.cs" />
-    <Compile Include="GraveyardSettings.cs" />
     <Compile Include="Mode\ModeEnum.cs" />
     <Compile Include="Mode\ModeEnumHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CHD.Common\CHD.Common.csproj">
-      <Project>{891ad56f-742a-462b-ad9c-6931f01f7c83}</Project>
+      <Project>{38F9C633-9327-4D59-9F55-2340A704E369}</Project>
       <Name>CHD.Common</Name>
     </ProjectReference>
   </ItemGroup>

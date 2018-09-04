@@ -3,7 +3,7 @@
     /// <summary>
     ///     Servers info class.
     /// </summary>
-    internal class ShardInfo
+    internal sealed class ShardInfo
     {
         /// <summary>
         ///     Gets or sets shard type.

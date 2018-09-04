@@ -11,7 +11,7 @@ namespace CHD.Wpf
     /// default return value for the CanExecute
     /// method is 'true'.
     /// </summary>
-    public class RelayCommand<T> : ICommand
+    public sealed class RelayCommand<T> : ICommand
         where T : class
     {
         #region Fields
@@ -87,7 +87,7 @@ namespace CHD.Wpf
     /// default return value for the CanExecute
     /// method is 'true'.
     /// </summary>
-    public class RelayCommand : ICommand
+    public sealed class RelayCommand : ICommand
     {
         #region Fields
 

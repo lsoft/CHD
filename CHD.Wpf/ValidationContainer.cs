@@ -6,7 +6,7 @@ namespace CHD.Wpf
     /// <summary>
     /// Класс, инкапсулирующий в себе информацию об ошибках валидации вводимых данных
     /// </summary>
-    public class ValidationContainer
+    public sealed class ValidationContainer
     {
         /// <summary>
         /// Контейнер "название контрола, где провалилась валидация" - "строка с ошибкой валидации"

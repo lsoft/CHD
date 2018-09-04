@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <setting name="Email" comment="easy to understand by its name">
+    <value>chd_target@list.ru</value>
+  </setting>
+  <setting name="Password" comment="easy to understand by its name">
+    <value>fuckyourself!</value>
+  </setting>
+  <setting name="ImapServer" comment="easy to understand by its name">
+    <value>imap.mail.ru</value>
+  </setting>
+  <setting name="ImapPort" comment="easy to understand by its name">
+    <value>993</value>
+  </setting>
+  <setting name="MinFileBlockSize" comment="min file size that makes sense">
+    <value>200000</value>
+    <preferredvalue>200000</preferredvalue>
+  </setting>
+  <setting name="MaxFileBlockSize" comment="max allowed attachment size by the email provider">
+    <value>2097152</value>
+    <preferredvalue>2097152</preferredvalue>
+  </setting>
+  <setting name="StoredSnapshotCount" comment="count of history snapshot stored (previous versions of the file system)">
+    <value>64</value>
+    <preferredvalue>64</preferredvalue>
+  </setting>
+  <setting name="StructureFolder" comment="structure file path">
+    <value>$Structure</value>
+  </setting>
+  <setting name="StructurePrefix" comment="structure file prefix">
+    <value>$Structure</value>
+  </setting>
+</settings>
